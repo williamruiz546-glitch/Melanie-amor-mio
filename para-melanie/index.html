@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Para Melanie</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Nunito:wght@400;600;700&family=Caveat:wght@500;700&display=swap">
+<style>
+/* Layout: app de una pantalla con barra inferior de pestañas; cada pestaña es una "página" de un cuaderno de amor */
+:root{
+  --bg:#FFF4F6; --paper:#FFFFFF; --ink:#3A1626; --soft:#7A5363; --line:#F2D3DC;
+  --accent:#D93A63; --blush:#F9C9D6; --gold:#B8862E; --map:#FCE6EC; --water:#D9ECF2;
+  --display:"DM Serif Display", Georgia, serif;
+  --body:"Nunito", system-ui, -apple-system, sans-serif;
+  --hand:"Caveat", "Segoe Print", cursive;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#1C0E15; --paper:#2A1720; --ink:#FBE7EC; --soft:#D3A9B7; --line:#43262F;
+  --accent:#FF6F91; --blush:#5A2A3A; --gold:#E2B860; --map:#2E1922; --water:#1E3038; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#1C0E15; --paper:#2A1720; --ink:#FBE7EC; --soft:#D3A9B7; --line:#43262F;
+  --accent:#FF6F91; --blush:#5A2A3A; --gold:#E2B860; --map:#2E1922; --water:#1E3038; color-scheme:dark}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55}
+.app{max-width:560px;margin:0 auto;min-height:100%;display:flex;flex-direction:column;
+  padding-left:max(16px, env(safe-area-inset-left,0px));padding-right:max(16px, env(safe-area-inset-right,0px));padding-block:20px 110px}
+h1,h2{font-family:var(--display);font-weight:400;text-wrap:balance;margin:0;line-height:1.15}
+h1{font-size:2.4rem} h2{font-size:1.7rem}
+.eyebrow{font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--soft);font-weight:700}
+.hand{font-family:var(--hand);font-size:1.5rem;line-height:1.25}
+.muted{color:var(--soft)}
+section{display:flex;flex-direction:column;gap:22px}
+.demo{background:var(--blush);color:var(--ink);border-radius:10px;padding:8px 12px;font-size:.85rem;margin-bottom:16px}
+.tag{font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);font-weight:700}
+
+/* Inicio */
+.hero{display:flex;flex-direction:column;gap:6px;padding-top:6px}
+.hero h1 em{color:var(--accent);font-style:italic}
+.counter{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:6px}
+.counter div{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:12px 4px;text-align:center}
+.counter b{display:block;font-family:var(--display);font-size:1.7rem;font-weight:400;font-variant-numeric:tabular-nums;color:var(--accent)}
+.counter span{font-size:.72rem;color:var(--soft);text-transform:uppercase;letter-spacing:.08em}
+.note{background:var(--paper);border-radius:4px 18px 18px 18px;padding:18px 20px;box-shadow:0 6px 24px -14px var(--accent);position:relative}
+.note .hand{color:var(--ink)}
+.note .row{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:6px}
+.btn{font:inherit;font-weight:700;border:none;border-radius:999px;padding:10px 18px;background:var(--accent);color:#fff;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--accent);border:1.5px solid var(--accent);padding:6px 14px;font-size:.85rem}
+.btn:focus-visible,.tabbar button:focus-visible,.env:focus-visible,.pin:focus-visible,.opt:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.timeline{list-style:none;margin:0;padding:0 0 0 22px;border-left:2px dashed var(--blush);display:flex;flex-direction:column;gap:18px}
+.timeline li{position:relative}
+.timeline li::before{content:"♥";position:absolute;left:-33px;top:0;color:var(--accent);background:var(--bg);font-size:1rem;line-height:1.3}
+.timeline .date{font-size:.78rem;font-weight:700;color:var(--gold);letter-spacing:.04em}
+.timeline h3{margin:2px 0 4px;font-size:1.05rem}
+.timeline p{margin:0;color:var(--soft)}
+.photo{margin-top:8px;aspect-ratio:4/3;max-width:100%;border-radius:12px;background:linear-gradient(135deg,var(--blush),var(--map));display:grid;place-items:center;color:var(--soft);font-size:.8rem}
+.photo img{width:100%;height:100%;object-fit:cover;border-radius:12px}
+
+/* Galería, razones, música */
+.gallery{position:relative;border-radius:18px;overflow:hidden;background:var(--blush);aspect-ratio:4/5;max-width:100%}
+.track{display:flex;height:100%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+.track::-webkit-scrollbar{display:none}
+.track img{flex:0 0 100%;width:100%;height:100%;object-fit:cover;scroll-snap-align:center}
+.gnav{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;border:none;background:color-mix(in srgb,var(--paper) 80%,transparent);color:var(--ink);font-size:1.6rem;line-height:1;cursor:pointer}
+.gnav.prev{left:10px}.gnav.next{right:10px}
+.dots{display:flex;justify-content:center;gap:6px;margin-top:10px}
+.dots i{width:7px;height:7px;border-radius:50%;background:var(--line)}
+.dots i.on{background:var(--accent);width:18px;border-radius:4px}
+.reasons{margin:0;padding:0;list-style:none;counter-reset:r;display:flex;flex-direction:column;gap:10px}
+.reasons li{counter-increment:r;display:flex;gap:12px;align-items:baseline}
+.reasons li::before{content:counter(r);font-family:var(--display);color:var(--accent);font-size:1.3rem;min-width:1.4em;text-align:right}
+.music{position:fixed;right:max(14px,env(safe-area-inset-right,0px));bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:25;
+  border:none;border-radius:999px;background:var(--accent);color:#fff;font:inherit;font-weight:700;padding:10px 16px;cursor:pointer;box-shadow:0 6px 18px -6px var(--accent)}
+.firma{font-family:var(--hand);font-size:1.4rem;color:var(--accent);text-align:center;margin:0}
+
+/* Portada */
+.cover{position:fixed;inset:0;z-index:50;display:grid;place-items:end center;background:#2A0E1A center/cover no-repeat;
+  background-image:linear-gradient(180deg,rgba(30,6,16,.15),rgba(30,6,16,.85)),url("foto1.jpg");
+  padding:0 max(20px,env(safe-area-inset-right,0px)) calc(48px + env(safe-area-inset-bottom,0px)) max(20px,env(safe-area-inset-left,0px))}
+.cover-in{max-width:460px;width:100%;display:flex;flex-direction:column;gap:12px;text-align:center;align-items:center}
+.cover.out{opacity:0;transition:opacity .7s;pointer-events:none}
+
+/* Cartas */
+.envs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.env{font:inherit;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:0;cursor:pointer;text-align:left;overflow:hidden;display:flex;flex-direction:column}
+.env .flap{height:56px;background:var(--blush);clip-path:polygon(0 0,100% 0,50% 100%);position:relative}
+.env .seal{position:absolute;left:50%;top:30px;transform:translateX(-50%);width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-size:.8rem}
+.env .lbl{padding:14px 12px 16px;font-family:var(--hand);font-size:1.35rem;line-height:1.15}
+.env.read .seal{background:var(--gold)}
+.letter{position:fixed;inset:0;background:color-mix(in srgb,var(--ink) 45%,transparent);display:grid;place-items:center;z-index:30;
+  padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.letter .sheet{background:var(--paper);max-width:460px;width:100%;max-height:85vh;overflow:auto;border-radius:6px;padding:26px 24px;
+  background-image:repeating-linear-gradient(transparent 0 33px,var(--line) 33px 34px);animation:rise .45s ease}
+.letter .sheet h2{margin-bottom:12px;color:var(--accent)}
+.letter .sheet p{font-family:var(--hand);font-size:1.45rem;line-height:34px;margin:0 0 12px}
+@keyframes rise{from{transform:translateY(30px) scale(.96);opacity:.4}to{transform:none;opacity:1}}
+
+/* Mapa */
+.mapwrap{position:relative;background:var(--map);border-radius:18px;overflow:hidden;border:1px solid var(--line)}
+.mapwrap svg{display:block;width:100%;height:auto}
+.pin{position:absolute;transform:translate(-50%,-100%);background:none;border:none;cursor:pointer;padding:4px;font-size:1.9rem;line-height:1;filter:drop-shadow(0 3px 3px rgba(0,0,0,.25))}
+.pin.on{transform:translate(-50%,-100%) scale(1.25)}
+.place{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.place h3{margin:2px 0 4px;font-family:var(--display);font-weight:400;font-size:1.3rem}
+.place p{margin:0}
+
+/* Quiz */
+.qcard{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:14px}
+.progress{height:6px;background:var(--line);border-radius:6px;overflow:hidden}
+.progress i{display:block;height:100%;background:var(--accent);transition:width .3s}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{font:inherit;text-align:left;padding:12px 16px;border-radius:12px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer}
+.opt.ok{border-color:#2E9E6A;background:color-mix(in srgb,#2E9E6A 15%,var(--bg))}
+.opt.no{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,var(--bg))}
+.prize{text-align:center;display:flex;flex-direction:column;gap:10px;align-items:center}
+.prize .big{font-family:var(--display);font-size:3rem;color:var(--accent);line-height:1}
+
+/* Cupones */
+.coupons{display:flex;flex-direction:column;gap:14px}
+.coupon{display:flex;background:var(--paper);border:1.5px dashed var(--accent);border-radius:14px;overflow:hidden}
+.coupon .stub{width:72px;flex:none;background:var(--blush);display:grid;place-items:center;font-size:1.8rem;border-right:1.5px dashed var(--accent)}
+.coupon .body{padding:14px 16px;flex:1;min-width:0;display:flex;flex-direction:column;gap:8px}
+.coupon h3{margin:0;font-size:1.05rem}
+.coupon p{margin:0;font-size:.88rem;color:var(--soft)}
+.coupon.used{opacity:.55;border-style:solid;border-color:var(--line)}
+.coupon.used .btn{background:var(--gold)}
+.confirm{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:.88rem}
+
+/* Barra */
+.tabbar{position:fixed;left:0;right:0;bottom:0;background:var(--paper);border-top:1px solid var(--line);z-index:20;
+  padding:6px max(8px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px))}
+.tabbar nav{max-width:560px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr)}
+.tabbar button{font:inherit;background:none;border:none;color:var(--soft);display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 2px;cursor:pointer;font-size:.7rem;font-weight:700;border-radius:10px}
+.tabbar button span{font-size:1.3rem;line-height:1}
+.tabbar button[aria-current="true"]{color:var(--accent);background:var(--bg)}
+.hearts{position:fixed;inset:0;pointer-events:none;z-index:40;overflow:hidden}
+.hearts i{position:absolute;bottom:-30px;font-style:normal;color:var(--accent);animation:float 2.4s ease-out forwards}
+@keyframes float{to{transform:translateY(-105vh) rotate(25deg);opacity:0}}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<style>*{box-sizing:border-box}body{margin:0}[hidden]{display:none!important}img{max-width:100%}</style>
+</head>
+<body>
+<div class="app">
+  <div class="demo" id="demo">Versión de prueba: los lugares del mapa y algunas preguntas del juego todavía son de ejemplo.</div>
+
+  <!-- INICIO -->
+  <section id="v-inicio">
+    <div class="hero">
+      <div class="eyebrow">Una app hecha solo para ti</div>
+      <h1>Hola, <em>Melanie</em></h1>
+      <p class="muted" id="since"></p>
+    </div>
+    <div class="counter" aria-live="polite">
+      <div><b id="c-d">0</b><span>días</span></div>
+      <div><b id="c-h">0</b><span>horas</span></div>
+      <div><b id="c-m">0</b><span>min</span></div>
+      <div><b id="c-s">0</b><span>seg</span></div>
+    </div>
+
+    <div class="note">
+      <div class="row"><span class="eyebrow">Mensaje de hoy</span><span class="muted" style="font-size:.8rem" id="today"></span></div>
+      <p class="hand" id="msg" style="margin:0"></p>
+      <div style="margin-top:12px"><button class="btn ghost" id="love">¿Cuánto te amo hoy? ➜</button></div>
+      <p class="muted" id="loveOut" style="margin:10px 0 0;font-size:.92rem" aria-live="polite"></p>
+    </div>
+
+    <div>
+      <div class="eyebrow" style="margin-bottom:6px">Nuestros momentos</div>
+      <h2 style="margin-bottom:12px">Cada foto, un recuerdo</h2>
+      <div class="gallery" id="gallery">
+        <div class="track" id="track"></div>
+        <button class="gnav prev" id="gprev" aria-label="Foto anterior">‹</button>
+        <button class="gnav next" id="gnext" aria-label="Foto siguiente">›</button>
+      </div>
+      <div class="dots" id="gdots"></div>
+    </div>
+
+    <div>
+      <div class="eyebrow" style="margin-bottom:6px">Razones por las que te amo</div>
+      <h2 style="margin-bottom:12px">Diez de los millones que tengo</h2>
+      <ol class="reasons" id="reasons"></ol>
+    </div>
+
+    <div>
+      <div class="eyebrow" style="margin-bottom:6px">Nuestra historia</div>
+      <h2 style="margin-bottom:16px">Los momentos que nos trajeron aquí</h2>
+      <ol class="timeline" id="timeline"></ol>
+    </div>
+    <div class="note" style="text-align:center">
+      <div class="eyebrow">Juntitos siempre</div>
+      <p class="hand" style="margin:6px 0">Gracias por ser mi historia favorita, mi lugar favorito, mi persona favorita.</p>
+      <p class="firma" id="firma"></p>
+    </div>
+  </section>
+
+  <!-- CARTAS -->
+  <section id="v-cartas" hidden>
+    <div><div class="eyebrow">Cartas</div><h2>Abre cuando…</h2>
+    <p class="muted">Elige la que necesites. Puedes volver a leerlas las veces que quieras.</p></div>
+    <div class="envs" id="envs"></div>
+  </section>
+
+  <!-- MAPA -->
+  <section id="v-mapa" hidden>
+    <div><div class="eyebrow">Mapa de recuerdos</div><h2>Nuestros lugares</h2>
+    <p class="muted">Toca un corazón para recordar lo que pasó ahí.</p></div>
+    <div class="mapwrap" id="map">
+      <svg viewBox="0 0 400 320" aria-hidden="true">
+        <path d="M0 230 C60 215 90 250 140 245 S230 270 280 255 S360 240 400 250 L400 320 L0 320Z" fill="var(--water)"/>
+        <path d="M300 280 q30 -12 60 -2 q-25 16 -60 2z" fill="var(--blush)"/>
+        <g fill="none" stroke="var(--line)" stroke-width="7" stroke-linecap="round">
+          <path d="M20 60 L380 90"/><path d="M60 20 L120 220"/><path d="M200 10 L230 230"/><path d="M30 170 L370 150"/><path d="M300 30 L330 220"/>
+        </g>
+        <g fill="none" stroke="var(--paper)" stroke-width="2" stroke-dasharray="6 6">
+          <path d="M20 60 L380 90"/><path d="M30 170 L370 150"/>
+        </g>
+        <text x="330" y="300" font-family="Nunito, sans-serif" font-size="11" fill="var(--soft)">Jambelí</text>
+        <text x="16" y="300" font-family="Nunito, sans-serif" font-size="11" fill="var(--soft)">Océano Pacífico</text>
+        <text x="16" y="24" font-family="Nunito, sans-serif" font-size="11" font-weight="700" fill="var(--soft)">MACHALA</text>
+      </svg>
+    </div>
+    <div class="place" id="place"></div>
+  </section>
+
+  <!-- QUIZ -->
+  <section id="v-quiz" hidden>
+    <div><div class="eyebrow">Juego</div><h2>¿Cuánto te acuerdas de nosotros?</h2>
+    <p class="muted">Responde todo y hay un premio al final.</p></div>
+    <div class="qcard" id="quiz"></div>
+  </section>
+
+  <!-- CUPONES -->
+  <section id="v-cupones" hidden>
+    <div><div class="eyebrow">Vales</div><h2>Cupones de amor</h2>
+    <p class="muted">Canjéalos cuando quieras. Solo enséñame la pantalla y lo cumplo.</p></div>
+    <div class="coupons" id="coupons"></div>
+  </section>
+</div>
+
+<div class="tabbar"><nav aria-label="Secciones">
+  <button data-v="inicio" aria-current="true"><span>♥</span>Inicio</button>
+  <button data-v="cartas"><span>✉</span>Cartas</button>
+  <button data-v="mapa"><span>⌖</span>Mapa</button>
+  <button data-v="quiz"><span>?</span>Juego</button>
+  <button data-v="cupones"><span>✂</span>Cupones</button>
+</nav></div>
+
+<div class="letter" id="letter" hidden><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="l-t">
+  <h2 id="l-t"></h2><div id="l-b"></div>
+  <button class="btn" id="l-close" style="margin-top:10px">Guardar carta</button>
+</div></div>
+<div class="cover" id="cover" role="dialog" aria-label="Portada">
+  <div class="cover-in">
+    <div class="eyebrow" style="color:#FFD3DF">Nuestra historia</div>
+    <h1 style="color:#fff;font-size:3rem">Melanie ❤️</h1>
+    <p style="margin:0;color:#FFE4EB">Desde el 15 de marzo de 2025.<br>Cada día contigo es mi lugar favorito.</p>
+    <button class="btn" id="start">Toca para comenzar 💖</button>
+  </div>
+</div>
+<div class="hearts" id="hearts"></div>
+<audio id="song" src="cancion.mp3" loop preload="none"></audio>
+<button class="music" id="musicBtn" aria-pressed="false">♪ Nuestra canción</button>
+
+<script>
+/* ============ PERSONALIZA AQUÍ ============ */
+const DATOS = {
+  listo: false, // cambiar a true cuando todo sea real (oculta el aviso de prueba)
+  inicio: "2025-03-15T00:00:00",
+  firma: "Tu amorcito bello, el que dará todo por ti 🌹",
+  fotos: ["foto1.jpg","foto2.jpg","foto3.jpg","foto4.jpg","foto5.jpg","foto6.jpg","foto7.jpg","foto8.jpg","foto9.jpg","foto10.jpg"],
+  razones: [
+    "Porque me haces mejor persona sin siquiera intentarlo.",
+    "Porque me encanta tu forma de ser.",
+    "Porque cada momento que pasamos juntos es inolvidable.",
+    "Porque tus brazos son mi lugar seguro.",
+    "Porque simplemente eres tú, y eso es más que suficiente.",
+    "Porque eres lo último en lo que pienso antes de dormir.",
+    "Porque contigo hasta los días grises se vuelven coloridos.",
+    "Porque eres el amor de mi vida.",
+    "Porque eres la razón y el motivo por el cual lucho día a día.",
+    "Porque contigo quiero pasar el resto de mi vida."
+  ],
+  historia: [
+    {fecha:"El comienzo", titulo:"El día que todo cambió", texto:"Cruzamos las primeras miradas y palabras. Sin saberlo, estábamos empezando a escribir el capítulo más bonito de nuestras vidas.", foto:"foto1.jpg"},
+    {fecha:"15 de marzo de 2025", titulo:"Nuestro gran «sí»", texto:"Hicimos oficial lo que nuestros corazones ya sabían. Ese día pasaste a ser mi prioridad, mi novia y mi lugar seguro.", foto:"foto5.jpg"},
+    {fecha:"El presente", titulo:"Juntitos y con más fuerza", texto:"Seguimos caminando de la mano, superando retos, coleccionando risas y construyendo un amor real, puro y duradero.", foto:"foto10.jpg"}
+  ],
+  mensajes: [
+    "¡Te amo más que ayer y menos que mañana! 🥰",
+    "Te amo hasta el infinito en pasos de tortuga 🐢❤️",
+    "Eres mi pensamiento favorito las 24/7.",
+    "Juntitos siempre, pase lo que pase.",
+    "Eres mi guapita hermosa. 😍",
+    "Cada día contigo es mi lugar favorito.",
+    "Eres el mejor regalo de mi vida.",
+    "Eres lo mejor que me ha pasado, y lo digo en serio.",
+    "Hoy también te elijo. Y mañana. Y pasado.",
+    "Tu risa es mi sonido favorito del mundo.",
+    "Si hoy está pesado, recuerda que estoy de tu lado.",
+    "Me encanta cómo ves el mundo.",
+    "Gracias por tener tanta paciencia conmigo.",
+    "Eres más fuerte de lo que crees.",
+    "Contigo hasta lo simple se vuelve bonito.",
+    "Me haces querer ser mejor persona.",
+    "Ojalá hoy alguien te haga sonreír. Si no, avísame.",
+    "Pienso en ti más de lo que te imaginas.",
+    "Tu abrazo arregla cualquier día malo.",
+    "Estoy orgulloso de ti, siempre.",
+    "Eres mi lugar favorito.",
+    "Hoy toca recordarte lo linda que eres.",
+    "Contigo el tiempo se pasa volando.",
+    "Me gustas en todas tus versiones: cansada, feliz, enojada y dormida.",
+    "Gracias por quedarte.",
+    "Tú puedes con todo lo de hoy.",
+    "Cada día contigo es mi favorito.",
+    "No hay nadie con quien prefiera estar.",
+    "Eres mi paz.",
+    "Que nunca se te olvide cuánto te quiero.",
+    "Te debo un beso. Reclámalo hoy.",
+    "Me encantas.",
+    "Tus ojos son mi parte favorita del día.",
+    "Contigo aprendí lo que es querer bonito.",
+    "Lo nuestro es mi historia favorita.",
+    "Hoy es un buen día para decirte que te amo.",
+    "Gracias por existir."
+  ],
+  cartas: [
+    {icono:"♥", cuando:"Quieras saber cuánto te amo", texto:["Mi querida Melanie ❤️","Hoy quiero recordarte lo importante que eres para mí. Gracias por cada sonrisa, cada abrazo, cada conversación y cada momento que hemos compartido durante este tiempo juntos.","A tu lado he aprendido que el amor está en los pequeños detalles, en las palabras sinceras y en la felicidad de compartir la vida con la persona correcta.","No sé cuántas páginas tenga nuestra historia, pero sí sé que quiero seguir escribiéndolas contigo.","Te amo muchísimo, mi guapita hermosa. Juntitos siempre ❤️"]},
+    {icono:"☁", cuando:"Estés triste", texto:["Mi guapita hermosa, si estás leyendo esto es porque hoy pesa un poco más.","Quiero que sepas que no tienes que estar bien todo el tiempo. Llora si lo necesitas, y después escríbeme. Voy a estar ahí.","Todo pasa, menos lo que siento por ti."]},
+    {icono:"✿", cuando:"Me extrañes", texto:["Yo también te estoy extrañando, te lo aseguro.","Cierra los ojos y piensa en nuestro último abrazo. Ese abrazo te lo debo el doble la próxima vez que nos veamos."]},
+    {icono:"☾", cuando:"No puedas dormir", texto:["Respira despacio. Inhala contando cuatro, suelta contando cuatro.","Imagina que estoy a tu lado contándote algo aburrido hasta que te duermas. Buenas noches, mi vida."]},
+    {icono:"✎", cuando:"Estés estresada por la U", texto:["Una tarea no define lo valiosa que eres.","Haz una cosa a la vez, toma agua y descansa un rato. Confío muchísimo en ti, y cuando termines, te invito algo rico."]},
+    {icono:"☀", cuando:"Estés feliz", texto:["¡Me encanta! Quiero que me cuentes todo con detalle.","Tu felicidad es de mis cosas favoritas en este mundo."]},
+    {icono:"✦", cuando:"Dudes de ti", texto:["Eres inteligente, valiente y muy capaz.","Si no lo ves hoy, préstame mis ojos un rato: yo veo a alguien increíble."]}
+  ],
+  lugares: [
+    {x:28, y:22, nombre:"Donde nos conocimos", fecha:"Enero 2025", texto:"El lugar donde empezó todo."},
+    {x:58, y:38, nombre:"Nuestra primera cita", fecha:"Febrero 2025", texto:"Estaba nervioso y tú lo notaste."},
+    {x:80, y:20, nombre:"Nuestro café favorito", fecha:"Siempre", texto:"Donde pedimos lo mismo de siempre."},
+    {x:40, y:62, nombre:"La U", fecha:"Todos los días", texto:"Entre clases, todo era mejor contigo."},
+    {x:84, y:88, nombre:"Jambelí", fecha:"Abril 2025", texto:"Nuestro primer viaje juntos al mar."}
+  ],
+  quiz: [
+    {p:"¿Cómo me firmo cuando te escribo?", o:["Tu William","Tu amorcito bello","Tu novio favorito","Tu osito"], r:1},
+    {p:"¿Dónde fue nuestra primera cita?", o:["En un café","En el cine","En la playa","En un parque"], r:0},
+    {p:"¿Qué fue lo primero que te dije?", o:["Hola, ¿cómo estás?","¿Me prestas un lápiz?","Qué bonita sonrisa","¿Estudias aquí?"], r:1},
+    {p:"¿Cuál es mi comida favorita?", o:["Encebollado","Pizza","Arroz con menestra","Ceviche"], r:0},
+    {p:"¿Qué día nos hicimos novios?", o:["14 de febrero de 2025","15 de marzo de 2025","1 de abril de 2025","15 de mayo de 2025"], r:1},
+    {p:"¿Quién dijo 'te quiero' primero?", o:["Tú","Yo","Los dos a la vez","Todavía discutimos eso"], r:3}
+  ],
+  premio: "Ganaste una cena conmigo, el lugar lo eliges tú ♥",
+  cupones: [
+    {icono:"🍕", titulo:"Una cena", texto:"Tú eliges el lugar, yo invito."},
+    {icono:"🎬", titulo:"Tú eliges la película", texto:"Sin quejas de mi parte, lo prometo."},
+    {icono:"💆", titulo:"Un masaje", texto:"De 20 minutos, sin apuros."},
+    {icono:"🤗", titulo:"Abrazo infinito", texto:"Hasta que tú digas basta."},
+    {icono:"🍦", titulo:"Antojo cumplido", texto:"El dulce que quieras, cuando quieras."},
+    {icono:"🕊", titulo:"Fin de la discusión", texto:"Úsalo y yo pido perdón primero."}
+  ]
+};
+/* ========================================= */
+
+const $ = id => document.getElementById(id);
+const store = { get(k,d){try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}},
+                set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}} };
+const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+$("demo").hidden = DATOS.listo;
+
+/* Tabs */
+const tabs=[...document.querySelectorAll(".tabbar button")];
+function show(v){
+  tabs.forEach(b=>b.setAttribute("aria-current", b.dataset.v===v));
+  ["inicio","cartas","mapa","quiz","cupones"].forEach(n=>$("v-"+n).hidden = n!==v);
+  window.scrollTo(0,0);
+  if(location.hash.slice(1)!==v) history.replaceState(null,"","#"+v);
+}
+tabs.forEach(b=>b.onclick=()=>show(b.dataset.v));
+const h0=location.hash.slice(1); if(["cartas","mapa","quiz","cupones"].includes(h0)) show(h0);
+
+/* Contador */
+const start=new Date(DATOS.inicio);
+$("since").textContent = "Juntos desde el " + start.toLocaleDateString("es-EC",{day:"numeric",month:"long",year:"numeric"});
+function tick(){
+  let t=Math.max(0,Date.now()-start)/1000;
+  $("c-d").textContent=Math.floor(t/86400).toLocaleString("es-EC");
+  $("c-h").textContent=Math.floor(t%86400/3600);
+  $("c-m").textContent=Math.floor(t%3600/60);
+  $("c-s").textContent=Math.floor(t%60);
+}
+tick(); setInterval(tick,1000);
+
+/* Mensaje del día */
+const now=new Date(), dayN=Math.floor((now - new Date(now.getFullYear(),0,0))/864e5);
+$("msg").textContent = DATOS.mensajes[dayN % DATOS.mensajes.length];
+$("today").textContent = now.toLocaleDateString("es-EC",{weekday:"long",day:"numeric",month:"short"});
+$("love").onclick=()=>{
+  const box=$("hearts");
+  for(let i=0;i<18;i++){const h=document.createElement("i");h.textContent="♥";
+    h.style.left=Math.random()*100+"%";h.style.fontSize=(14+Math.random()*24)+"px";h.style.animationDelay=(Math.random()*.6)+"s";
+    box.appendChild(h);setTimeout(()=>h.remove(),3200);}
+};
+
+
+/* Galería */
+$("track").innerHTML=DATOS.fotos.map((f,i)=>`<img src="${f}" alt="Foto ${i+1} de nosotros" loading="${i?"lazy":"eager"}">`).join("");
+$("gdots").innerHTML=DATOS.fotos.map(()=>"<i></i>").join("");
+const track=$("track"), dotEls=[...$("gdots").children];
+function curr(){return Math.round(track.scrollLeft/track.clientWidth)}
+function paintDots(){const c=curr();dotEls.forEach((d,i)=>d.classList.toggle("on",i===c));}
+function go(n){const k=(n+DATOS.fotos.length)%DATOS.fotos.length;track.scrollTo({left:k*track.clientWidth,behavior:"smooth"});}
+track.addEventListener("scroll",paintDots,{passive:true}); paintDots();
+$("gprev").onclick=()=>go(curr()-1); $("gnext").onclick=()=>go(curr()+1);
+let auto=setInterval(()=>{if(!$("v-inicio").hidden)go(curr()+1)},5000);
+track.addEventListener("pointerdown",()=>{clearInterval(auto)});
+
+/* Razones y firma */
+$("reasons").innerHTML=DATOS.razones.map(r=>`<li><span>${esc(r)}</span></li>`).join("");
+$("firma").textContent=DATOS.firma;
+
+/* Música */
+const song=$("song"), mb=$("musicBtn");
+mb.onclick=()=>{ if(song.paused){song.volume=.6;song.play().then(()=>{mb.textContent="❚❚ Pausar canción";mb.setAttribute("aria-pressed","true")}).catch(()=>{mb.textContent="♪ Toca otra vez"});}
+  else{song.pause();mb.textContent="♪ Nuestra canción";mb.setAttribute("aria-pressed","false");} };
+
+
+/* Portada y "te amo" */
+$("start").onclick=()=>{ $("musicBtn").onclick(); const c=$("cover"); c.classList.add("out"); setTimeout(()=>c.hidden=true,700); };
+const frasesAmor=["¡Más que ayer y menos que mañana! 🥰","Hasta el infinito en pasos de tortuga… 🐢❤️","Eres mi pensamiento favorito las 24/7. 💭","Juntitos siempre, pase lo que pase. 🔒💖","¡Imposible de medir con números! 🪐","Eres mi guapita hermosa. 😍","Cada clic es una promesa de cuidarte. 🌹","Cada segundo contigo vale todo. 🥰"];
+let veces=0; const lanzar=$("love").onclick;
+$("love").onclick=()=>{ veces++; $("loveOut").textContent=`Te amo: ${veces} ${veces===1?"vez":"veces"} · ${frasesAmor[Math.floor(Math.random()*frasesAmor.length)]}`; lanzar(); };
+
+/* Línea del tiempo */
+$("timeline").innerHTML = DATOS.historia.map(h=>`<li><div class="date">${esc(h.fecha)}</div><h3>${esc(h.titulo)}</h3><p>${esc(h.texto)}</p>
+  ${h.foto?`<div class="photo"><img src="${h.foto}" alt="${esc(h.titulo)}"></div>`:""}</li>`).join("");
+
+/* Cartas */
+let read=store.get("cartas-leidas",[]);
+function renderEnvs(){
+  $("envs").innerHTML = DATOS.cartas.map((c,i)=>`<button class="env ${read.includes(i)?"read":""}" data-i="${i}">
+    <div class="flap"><div class="seal">${read.includes(i)?"✓":esc(c.icono)}</div></div>
+    <div class="lbl">Abre cuando ${esc(c.cuando.toLowerCase())}</div></button>`).join("");
+  document.querySelectorAll(".env").forEach(b=>b.onclick=()=>openLetter(+b.dataset.i));
+}
+function openLetter(i){
+  const c=DATOS.cartas[i];
+  $("l-t").textContent="Abre cuando "+c.cuando.toLowerCase();
+  $("l-b").innerHTML=c.texto.map(p=>`<p>${esc(p)}</p>`).join("")+`<p style="text-align:right">Con todo mi amor,<br>${esc(DATOS.firma)}</p>`;
+  $("letter").hidden=false; $("l-close").focus();
+  if(!read.includes(i)){read.push(i);store.set("cartas-leidas",read);}
+}
+$("l-close").onclick=()=>{$("letter").hidden=true;renderEnvs();};
+$("letter").onclick=e=>{if(e.target.id==="letter")$("l-close").click();};
+renderEnvs();
+
+/* Mapa */
+function renderPlace(i){
+  const l=DATOS.lugares[i];
+  $("place").innerHTML=`<div class="tag">${esc(l.fecha)}</div><h3>${esc(l.nombre)}</h3><p class="muted">${esc(l.texto)}</p>
+   ${l.foto?`<div class="photo"><img src="${l.foto}" alt="${esc(l.nombre)}"></div>`:""}`;
+  document.querySelectorAll(".pin").forEach((p,j)=>p.classList.toggle("on",j===i));
+}
+DATOS.lugares.forEach((l,i)=>{
+  const b=document.createElement("button");b.className="pin";b.textContent="❤️";
+  b.style.left=l.x+"%";b.style.top=l.y+"%";b.setAttribute("aria-label",l.nombre);
+  b.onclick=()=>renderPlace(i);$("map").appendChild(b);
+});
+renderPlace(0);
+
+/* Quiz */
+let qi=0, score=0, answered=false;
+function renderQ(){
+  const box=$("quiz"), Q=DATOS.quiz;
+  if(qi>=Q.length){
+    box.innerHTML=`<div class="prize"><div class="eyebrow">Resultado</div><div class="big">${score}/${Q.length}</div>
+      <p class="hand" style="margin:0">${score===Q.length?"¡Perfecto! Te sabes nuestra historia de memoria.":score>=Q.length/2?"¡Muy bien! Te acuerdas de casi todo.":"Bueno… tendremos que repasar juntos 😉"}</p>
+      <div class="note" style="width:100%"><div class="eyebrow">Tu premio</div><p class="hand" style="margin:4px 0 0">${esc(DATOS.premio)}</p></div>
+      <button class="btn ghost" id="again">Jugar otra vez</button></div>`;
+    $("again").onclick=()=>{qi=0;score=0;renderQ();};
+    return;
+  }
+  const q=Q[qi]; answered=false;
+  box.innerHTML=`<div class="progress"><i style="width:${qi/Q.length*100}%"></i></div>
+    <div class="eyebrow">Pregunta ${qi+1} de ${Q.length}</div><h2 style="font-size:1.4rem">${esc(q.p)}</h2>
+    <div class="opts">${q.o.map((o,j)=>`<button class="opt" data-j="${j}">${esc(o)}</button>`).join("")}</div>
+    <div id="next"></div>`;
+  box.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{
+    if(answered)return; answered=true;
+    const j=+b.dataset.j; if(j===q.r)score++;
+    box.querySelectorAll(".opt").forEach((x,k)=>{if(k===q.r)x.classList.add("ok");else if(k===j)x.classList.add("no");});
+    $("next").innerHTML=`<button class="btn">${qi+1<Q.length?"Siguiente":"Ver mi premio"}</button>`;
+    $("next").firstChild.onclick=()=>{qi++;renderQ();};
+  });
+}
+renderQ();
+
+/* Cupones */
+let used=store.get("cupones-usados",[]), pending=null;
+function renderCoupons(){
+  $("coupons").innerHTML=DATOS.cupones.map((c,i)=>{
+    const u=used.includes(i);
+    return `<div class="coupon ${u?"used":""}"><div class="stub">${esc(c.icono)}</div><div class="body">
+      <h3>${esc(c.titulo)}</h3><p>${esc(c.texto)}</p>
+      ${u?`<div><span class="tag" style="color:var(--gold)">Canjeado ✓</span></div>`:
+        pending===i?`<div class="confirm"><span>¿Lo canjeas ahora?</span><button class="btn" data-ok="${i}" style="padding:6px 14px">Sí</button><button class="btn ghost" data-no>No</button></div>`:
+        `<div><button class="btn ghost" data-use="${i}">Canjear</button></div>`}
+    </div></div>`;}).join("");
+  document.querySelectorAll("[data-use]").forEach(b=>b.onclick=()=>{pending=+b.dataset.use;renderCoupons();});
+  document.querySelectorAll("[data-no]").forEach(b=>b.onclick=()=>{pending=null;renderCoupons();});
+  document.querySelectorAll("[data-ok]").forEach(b=>b.onclick=()=>{used.push(+b.dataset.ok);pending=null;store.set("cupones-usados",used);renderCoupons();lanzar();});
+}
+renderCoupons();
+</script>
+
+</body>
+</html>
