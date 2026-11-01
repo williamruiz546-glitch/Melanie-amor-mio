@@ -215,8 +215,7 @@ section{display:flex;flex-direction:column;gap:22px}
         <g fill="none" stroke="var(--paper)" stroke-width="2" stroke-dasharray="6 6">
           <path d="M20 60 L380 90"/><path d="M30 170 L370 150"/>
         </g>
-        <text x="330" y="300" font-family="Nunito, sans-serif" font-size="11" fill="var(--soft)">Jambelí</text>
-        <text x="16" y="300" font-family="Nunito, sans-serif" font-size="11" fill="var(--soft)">Océano Pacífico</text>
+                <text x="16" y="300" font-family="Nunito, sans-serif" font-size="11" fill="var(--soft)">Océano Pacífico</text>
         <text x="16" y="24" font-family="Nunito, sans-serif" font-size="11" font-weight="700" fill="var(--soft)">MACHALA</text>
       </svg>
     </div>
@@ -265,7 +264,7 @@ section{display:flex;flex-direction:column;gap:22px}
 <script>
 /* ============ PERSONALIZA AQUÍ ============ */
 const DATOS = {
-  listo: false, // cambiar a true cuando todo sea real (oculta el aviso de prueba)
+  listo: true, // cambiar a true cuando todo sea real (oculta el aviso de prueba)
   inicio: "2025-03-15T00:00:00",
   firma: "Tu amorcito bello, el que dará todo por ti 🌹",
   fotos: ["foto1.jpg","foto2.jpg","foto3.jpg","foto4.jpg","foto5.jpg","foto6.jpg","foto7.jpg","foto8.jpg","foto9.jpg","foto10.jpg"],
@@ -282,12 +281,24 @@ const DATOS = {
     "Porque contigo quiero pasar el resto de mi vida."
   ],
   historia: [
-    {fecha:"El comienzo", titulo:"El día que todo cambió", texto:"Cruzamos las primeras miradas y palabras. Sin saberlo, estábamos empezando a escribir el capítulo más bonito de nuestras vidas.", foto:"foto1.jpg"},
+    {fecha:"1 de octubre de 2023", titulo:"Un «Hola» y un «¿Hola?»", texto:"Una prima tuya me dijo que te escribiera por Facebook. Te escribí «Hola», me respondiste «¿Hola?» jajaja, y ahí empezó todo.", foto:"foto1.jpg"},
+    {fecha:"Octubre de 2023", titulo:"Te dije «te quiero»", texto:"A los tres días ya te lo estaba diciendo. Tú querías decirme «te amo» desde el tercer día también."},
+    {fecha:"La estación", titulo:"La primera vez que nos vimos", texto:"Ahí te vi por primera vez y ahí te di nuestro primer beso. Después la estación se volvió nuestro punto de encuentro de siempre.", foto:"foto3.jpg"},
+    {fecha:"10 de marzo de 2024", titulo:"Cine en el Shopping", texto:"Fuimos a ver una película juntos. Una de esas citas que guardo en el corazón.", foto:"foto6.jpg"},
     {fecha:"15 de marzo de 2025", titulo:"Nuestro gran «sí»", texto:"Hicimos oficial lo que nuestros corazones ya sabían. Ese día pasaste a ser mi prioridad, mi novia y mi lugar seguro.", foto:"foto5.jpg"},
-    {fecha:"El presente", titulo:"Juntitos y con más fuerza", texto:"Seguimos caminando de la mano, superando retos, coleccionando risas y construyendo un amor real, puro y duradero.", foto:"foto10.jpg"}
+    {fecha:"El presente", titulo:"Juntitos en la U", texto:"Ahora la universidad es nuestro lugar: ahí estamos juntos y seguimos sumando momentos, risas y un amor real, puro y duradero.", foto:"foto10.jpg"}
   ],
   mensajes: [
     "¡Te amo más que ayer y menos que mañana! 🥰",
+    "Buenos días, mi Melancho. ☀️",
+    "Quién diría que un «Hola» y un «¿Hola?» iban a terminar en esto. 🥹",
+    "Mi niña hermosa, nos vemos en la U.",
+    "Gracias a tu prima por decirme que te escribiera.",
+    "Un seco de pollo y tú: mi plan perfecto. 🍗",
+    "Mi chiquita preciosa, eres mi lugar seguro.",
+    "Tu flaquito te ama muchísimo.",
+    "Te extraño desde la estación hasta la U, ida y vuelta.",
+    "Eres divina, mi vida.",
     "Te amo hasta el infinito en pasos de tortuga 🐢❤️",
     "Eres mi pensamiento favorito las 24/7.",
     "Juntitos siempre, pase lo que pase.",
@@ -327,31 +338,34 @@ const DATOS = {
   ],
   cartas: [
     {icono:"♥", cuando:"Quieras saber cuánto te amo", texto:["Mi querida Melanie ❤️","Hoy quiero recordarte lo importante que eres para mí. Gracias por cada sonrisa, cada abrazo, cada conversación y cada momento que hemos compartido durante este tiempo juntos.","A tu lado he aprendido que el amor está en los pequeños detalles, en las palabras sinceras y en la felicidad de compartir la vida con la persona correcta.","No sé cuántas páginas tenga nuestra historia, pero sí sé que quiero seguir escribiéndolas contigo.","Te amo muchísimo, mi guapita hermosa. Juntitos siempre ❤️"]},
-    {icono:"☁", cuando:"Estés triste", texto:["Mi guapita hermosa, si estás leyendo esto es porque hoy pesa un poco más.","Quiero que sepas que no tienes que estar bien todo el tiempo. Llora si lo necesitas, y después escríbeme. Voy a estar ahí.","Todo pasa, menos lo que siento por ti."]},
-    {icono:"✿", cuando:"Me extrañes", texto:["Yo también te estoy extrañando, te lo aseguro.","Cierra los ojos y piensa en nuestro último abrazo. Ese abrazo te lo debo el doble la próxima vez que nos veamos."]},
-    {icono:"☾", cuando:"No puedas dormir", texto:["Respira despacio. Inhala contando cuatro, suelta contando cuatro.","Imagina que estoy a tu lado contándote algo aburrido hasta que te duermas. Buenas noches, mi vida."]},
+    {icono:"☁", cuando:"Estés triste", texto:["Mi Melancho, si estás leyendo esto es porque hoy pesa un poco más.","Quiero que sepas que no tienes que estar bien todo el tiempo. Llora si lo necesitas, y después escríbeme. Voy a estar ahí.","Todo pasa, menos lo que siento por ti."]},
+    {icono:"✿", cuando:"Me extrañes", texto:["Mi niña hermosa, yo también te estoy extrañando, te lo aseguro.","Cierra los ojos y piensa en nuestro último abrazo. Ese abrazo te lo debo el doble la próxima vez que nos veamos."]},
+    {icono:"☾", cuando:"No puedas dormir", texto:["Mi chiquita preciosa, respira despacio. Inhala contando cuatro, suelta contando cuatro.","Imagina que estoy a tu lado contándote algo aburrido hasta que te duermas. Buenas noches, mi vida."]},
     {icono:"✎", cuando:"Estés estresada por la U", texto:["Una tarea no define lo valiosa que eres.","Haz una cosa a la vez, toma agua y descansa un rato. Confío muchísimo en ti, y cuando termines, te invito algo rico."]},
     {icono:"☀", cuando:"Estés feliz", texto:["¡Me encanta! Quiero que me cuentes todo con detalle.","Tu felicidad es de mis cosas favoritas en este mundo."]},
     {icono:"✦", cuando:"Dudes de ti", texto:["Eres inteligente, valiente y muy capaz.","Si no lo ves hoy, préstame mis ojos un rato: yo veo a alguien increíble."]}
   ],
   lugares: [
-    {x:28, y:22, nombre:"Donde nos conocimos", fecha:"Enero 2025", texto:"El lugar donde empezó todo."},
-    {x:58, y:38, nombre:"Nuestra primera cita", fecha:"Febrero 2025", texto:"Estaba nervioso y tú lo notaste."},
-    {x:80, y:20, nombre:"Nuestro café favorito", fecha:"Siempre", texto:"Donde pedimos lo mismo de siempre."},
-    {x:40, y:62, nombre:"La U", fecha:"Todos los días", texto:"Entre clases, todo era mejor contigo."},
-    {x:84, y:88, nombre:"Jambelí", fecha:"Abril 2025", texto:"Nuestro primer viaje juntos al mar."}
+    {x:30, y:30, nombre:"La estación", fecha:"Nuestro primer lugar", texto:"Donde nos vimos por primera vez, donde te di nuestro primer beso y donde siempre nos encontrábamos."},
+    {x:62, y:24, nombre:"El Shopping", fecha:"10 de marzo de 2024", texto:"Nuestra cita en el cine y nuestro lugar para ir a comer."},
+    {x:78, y:52, nombre:"La Piazza", fecha:"Para pasear", texto:"Caminar contigo de la mano, sin apuro, es de mis planes favoritos."},
+    {x:46, y:56, nombre:"El Centro", fecha:"Para pasear", texto:"Paseos sencillos que contigo se vuelven especiales."},
+    {x:20, y:62, nombre:"La universidad", fecha:"Hoy", texto:"Nuestro lugar de ahora: aquí podemos estar juntos y pasar muchos momentos lindos."}
   ],
   quiz: [
-    {p:"¿Cómo me firmo cuando te escribo?", o:["Tu William","Tu amorcito bello","Tu novio favorito","Tu osito"], r:1},
-    {p:"¿Dónde fue nuestra primera cita?", o:["En un café","En el cine","En la playa","En un parque"], r:0},
-    {p:"¿Qué fue lo primero que te dije?", o:["Hola, ¿cómo estás?","¿Me prestas un lápiz?","Qué bonita sonrisa","¿Estudias aquí?"], r:1},
-    {p:"¿Cuál es mi comida favorita?", o:["Encebollado","Pizza","Arroz con menestra","Ceviche"], r:0},
-    {p:"¿Qué día nos hicimos novios?", o:["14 de febrero de 2025","15 de marzo de 2025","1 de abril de 2025","15 de mayo de 2025"], r:1},
-    {p:"¿Quién dijo 'te quiero' primero?", o:["Tú","Yo","Los dos a la vez","Todavía discutimos eso"], r:3}
+    {p:"¿Cómo nos conocimos?", o:["En la universidad","Por Facebook, gracias a tu prima","En una fiesta","En la estación"], r:1},
+    {p:"¿Qué fue lo primero que nos dijimos?", o:["«Hola» – «¿Hola?» jajaja","«Hola, ¿cómo estás?»","«¿Te conozco?»","«Buenas noches»"], r:0},
+    {p:"¿En qué mes nos conocimos?", o:["Septiembre","Octubre","Noviembre","Diciembre"], r:1},
+    {p:"¿Dónde nos vimos por primera vez?", o:["En el Shopping","En la Piazza","En la estación","En el centro"], r:2},
+    {p:"¿Dónde fue nuestro primer beso?", o:["En el cine","En la estación","En la universidad","En la Piazza"], r:1},
+    {p:"¿A los cuántos días te dije «te quiero»?", o:["Al primer día","A los 3 días","A la semana","Al mes"], r:1},
+    {p:"¿Cuál es nuestra comida favorita?", o:["Encebollado","Ceviche","Seco de pollo","Pizza"], r:2},
+    {p:"¿Cómo me firmo cuando te escribo?", o:["Tu William","Tu amorcito bello","Tu novio favorito","Tu osito"], r:1}
   ],
-  premio: "Ganaste una cena conmigo, el lugar lo eliges tú ♥",
+  premio: "Ganaste un seco de pollo invitado por tu flaquito y, después, un paseo por la Piazza ♥",
   cupones: [
-    {icono:"🍕", titulo:"Una cena", texto:"Tú eliges el lugar, yo invito."},
+    {icono:"🍗", titulo:"Un seco de pollo", texto:"Invitado por tu flaquito, cuando tú quieras."},
+    {icono:"🍿", titulo:"Cita en el cine", texto:"En el Shopping, como aquella vez."},
     {icono:"🎬", titulo:"Tú eliges la película", texto:"Sin quejas de mi parte, lo prometo."},
     {icono:"💆", titulo:"Un masaje", texto:"De 20 minutos, sin apuros."},
     {icono:"🤗", titulo:"Abrazo infinito", texto:"Hasta que tú digas basta."},
