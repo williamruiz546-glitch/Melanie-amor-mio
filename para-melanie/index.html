@@ -96,6 +96,20 @@ section{display:flex;flex-direction:column;gap:22px}
   padding:10px max(16px,env(safe-area-inset-right,0px)) calc(12px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
 .lb-x{background:#ffffff22;color:#fff;border:none;width:42px;height:42px;border-radius:50%;font-size:1.1rem;cursor:pointer}
 
+/* Fechas, deseos, secreto */
+.special{background:var(--accent);color:#fff;border-radius:16px;padding:16px 18px;display:flex;gap:12px;align-items:center}
+.special b{display:block;font-family:var(--display);font-weight:400;font-size:1.35rem;line-height:1.2}
+.special span{font-size:.92rem;opacity:.95}
+.special .ico{font-size:2rem;line-height:1}
+#counter{cursor:pointer;-webkit-user-select:none;user-select:none}
+.wishes{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.wishes label{display:flex;gap:12px;align-items:center;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px 14px;cursor:pointer}
+.wishes input{width:20px;height:20px;accent-color:var(--accent);flex:none}
+.wishes input:checked + span{text-decoration:line-through;color:var(--soft)}
+.env.locked{opacity:.8}
+.env.locked .seal{background:var(--soft)}
+.env .count{font-family:var(--body);font-size:.8rem;color:var(--soft);display:block;margin-top:4px}
+
 /* Cartas */
 .envs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
 .env{font:inherit;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:0;cursor:pointer;text-align:left;overflow:hidden;display:flex;flex-direction:column}
@@ -168,7 +182,8 @@ section{display:flex;flex-direction:column;gap:22px}
       <h1>Hola, <em>Melanie</em></h1>
       <p class="muted" id="since"></p>
     </div>
-    <div class="counter" aria-live="polite">
+    <div class="special" id="special" hidden></div>
+    <div class="counter" aria-live="polite" id="counter">
       <div><b id="c-d">0</b><span>días</span></div>
       <div><b id="c-h">0</b><span>horas</span></div>
       <div><b id="c-m">0</b><span>min</span></div>
@@ -204,10 +219,18 @@ section{display:flex;flex-direction:column;gap:22px}
       <h2 style="margin-bottom:16px">Los momentos que nos trajeron aquí</h2>
       <ol class="timeline" id="timeline"></ol>
     </div>
+    <div>
+      <div class="eyebrow" style="margin-bottom:6px">Nuestro futuro</div>
+      <h2 style="margin-bottom:6px">Cosas que nos faltan hacer juntos</h2>
+      <p class="muted" style="margin:0 0 14px">Márcalas cuando las cumplamos.</p>
+      <ul class="wishes" id="wishes"></ul>
+    </div>
+
     <div class="note" style="text-align:center">
       <div class="eyebrow">Juntitos siempre</div>
       <p class="hand" style="margin:6px 0">Gracias por ser mi historia favorita, mi lugar favorito, mi persona favorita.</p>
       <p class="firma" id="firma"></p>
+      <p class="muted" style="font-size:.78rem;margin:10px 0 0">Pista: hay un secreto escondido en el contador 🤫</p>
     </div>
   </section>
 
@@ -400,6 +423,18 @@ const DATOS = {
     {p:"¿Qué te di el 15 de septiembre de 2026?", o:["Un collar","Un peluche","Un anillo de promesa","Un ramo de rosas"], r:2},
     {p:"¿Cómo me firmo cuando te escribo?", o:["Tu William","Tu amorcito bello","Tu novio favorito","Tu osito"], r:1}
   ],
+  deseos: [
+    "Volver al cine en el Shopping",
+    "Comernos un seco de pollo juntos el día de nuestro aniversario",
+    "Pasear por la Piazza en la noche",
+    "Hacer nuestro primer viaje juntos",
+    "Tomarnos una foto en cada aniversario",
+    "Graduarnos de la U y celebrarlo juntos",
+    "Ver el amanecer juntos",
+    "Cocinar algo juntos por primera vez"
+  ],
+  cartaFutura: {fecha:"2027-10-15T00:00:00", titulo:"Nuestro 4.º aniversario", texto:["Mi Melancho, si estás leyendo esto es porque ya cumplimos cuatro años juntos.","Te escribí esta carta en 2026, después de darte el anillo de promesa, pensando en este día. Quiero que sepas que cada año a tu lado ha sido mejor que el anterior.","Gracias por seguir eligiéndome. Yo te sigo eligiendo a ti, hoy y siempre.","Juntitos siempre ❤️"]},
+  secreto: "Encontraste el secreto 🤫 Te amo más de lo que esta app puede mostrar. Pídeme un abrazo de los largos y dime la palabra clave: «Melancho». Vale por un beso extra 💋",
   premio: "Ganaste un seco de pollo invitado por tu flaquito y, después, un paseo por la Piazza ♥",
   cupones: [
     {icono:"🍗", titulo:"Un seco de pollo", texto:"Invitado por tu flaquito, cuando tú quieras."},
@@ -498,6 +533,36 @@ $("lbClose").onclick=()=>{$("lb").hidden=true;};
 document.addEventListener("keydown",e=>{if($("lb").hidden)return;if(e.key==="Escape")$("lbClose").click();
   if(e.key==="ArrowRight")lbT.scrollBy({left:lbT.clientWidth,behavior:"smooth"});if(e.key==="ArrowLeft")lbT.scrollBy({left:-lbT.clientWidth,behavior:"smooth"});});
 
+
+/* Fechas especiales */
+(function(){
+  const d=new Date(), dia=d.getDate(), mes=d.getMonth()+1, anio=d.getFullYear();
+  let m=null;
+  if(mes===10&&dia===15) m=["💍","¡Feliz aniversario, mi amor!",`Hoy cumplimos ${anio-2023} ${anio-2023===1?"año":"años"} juntos. Gracias por cada día.`];
+  else if(mes===9&&dia===14) m=["🎂","¡Feliz cumpleaños, mi niña hermosa!","Hoy es tu día y el mío también, porque naciste tú."];
+  else if(mes===9&&dia===15) m=["💍","Hoy hace un año del anillo de promesa","Y la promesa sigue en pie, ahora más fuerte."];
+  else if(mes===9&&dia===9) m=["🎁","Hoy es mi cumpleaños","Y mi mejor regalo sigues siendo tú."];
+  else if(mes===2&&dia===14) m=["🌹","Feliz San Valentín, mi vida","Hoy y todos los días eres mi San Valentín."];
+  else if(dia===15){const meses=(anio-2023)*12+(mes-10); m=["❤️","¡Feliz mes, mi Melancho!",`Hoy cumplimos ${meses} meses juntos.`];}
+  if(m){$("special").innerHTML=`<div class="ico">${m[0]}</div><div><b>${esc(m[1])}</b><span>${esc(m[2])}</span></div>`;$("special").hidden=false;}
+})();
+
+/* Secreto: tocar 5 veces el contador */
+let toques=0, tTimer;
+$("counter").addEventListener("click",()=>{
+  toques++; clearTimeout(tTimer); tTimer=setTimeout(()=>toques=0,2500);
+  if(toques>=5){toques=0;
+    $("l-t").textContent="Un secreto para ti";
+    $("l-b").innerHTML=`<p>${esc(DATOS.secreto)}</p><p style="text-align:right">${esc(DATOS.firma)}</p>`;
+    $("letter").hidden=false; $("l-close").focus(); lanzar();}
+});
+
+/* Deseos */
+let hechos=store.get("deseos-hechos",[]);
+$("wishes").innerHTML=DATOS.deseos.map((w,i)=>`<li><label for="w${i}"><input type="checkbox" id="w${i}" data-i="${i}" ${hechos.includes(i)?"checked":""}><span>${esc(w)}</span></label></li>`).join("");
+$("wishes").addEventListener("change",e=>{const i=+e.target.dataset.i;
+  hechos=e.target.checked?[...new Set([...hechos,i])]:hechos.filter(x=>x!==i); store.set("deseos-hechos",hechos); if(e.target.checked)lanzar();});
+
 /* Línea del tiempo */
 $("timeline").innerHTML = DATOS.historia.map(h=>`<li><div class="date">${esc(h.fecha)}</div><h3>${esc(h.titulo)}</h3><p>${esc(h.texto)}</p>
   ${h.foto?`<div class="photo"><img src="${h.foto}" alt="${esc(h.titulo)}"></div>`:""}</li>`).join("");
@@ -507,8 +572,23 @@ let read=store.get("cartas-leidas",[]);
 function renderEnvs(){
   $("envs").innerHTML = DATOS.cartas.map((c,i)=>`<button class="env ${read.includes(i)?"read":""}" data-i="${i}">
     <div class="flap"><div class="seal">${read.includes(i)?"✓":esc(c.icono)}</div></div>
-    <div class="lbl">Abre cuando ${esc(c.cuando.toLowerCase())}</div></button>`).join("");
+    <div class="lbl">Abre cuando ${esc(c.cuando.toLowerCase())}</div></button>`).join("") + futuraHTML();
+  const fb=$("futura"); if(fb) fb.onclick=abrirFutura;
   document.querySelectorAll(".env").forEach(b=>b.onclick=()=>openLetter(+b.dataset.i));
+}
+function futuraHTML(){
+  const f=DATOS.cartaFutura, falta=new Date(f.fecha)-Date.now(), lista=falta<=0;
+  const dias=Math.ceil(falta/864e5);
+  return `<button class="env ${lista?"":"locked"}" id="futura" style="grid-column:1/-1">
+    <div class="flap"><div class="seal">${lista?"♥":"🔒"}</div></div>
+    <div class="lbl">Abre el 15 de octubre de 2027<span class="count">${lista?"¡Ya puedes abrirla!":`Faltan ${dias} días · ${esc(f.titulo)}`}</span></div></button>`;
+}
+function abrirFutura(){
+  const f=DATOS.cartaFutura, lista=new Date(f.fecha)<=Date.now();
+  $("l-t").textContent=lista?f.titulo:"Todavía no 🔒";
+  $("l-b").innerHTML=lista?f.texto.map(p=>`<p>${esc(p)}</p>`).join("")+`<p style="text-align:right">Con todo mi amor,<br>${esc(DATOS.firma)}</p>`
+    :`<p>Esta carta se abre el 15 de octubre de 2027, en nuestro 4.º aniversario. Paciencia, mi Melancho 😘</p>`;
+  $("letter").hidden=false; $("l-close").focus();
 }
 function openLetter(i){
   const c=DATOS.cartas[i];
