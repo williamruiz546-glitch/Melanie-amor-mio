@@ -16,6 +16,9 @@ Edita solo lo que está entre comillas. Para comillas dentro de un texto usa « 
 2. Úsala en `FOTOS` o `FOTOS_FINAL` dentro de `data.js`.
 3. En `sw.js` agrégala a la lista y cambia `VERSION` (por ejemplo `adviento-v1` → `adviento-v2`).
 
+## Cambiar la canción
+Reemplaza `musica.mp3` por otra canción (mismo nombre) y en `sw.js` sube `VERSION`.
+
 ## Modo prueba
 Agrega `#prueba` al final del link para ver todas las puertitas desbloqueadas.
 
@@ -24,7 +27,7 @@ Agrega `#prueba` al final del link para ver todas las puertitas desbloqueadas.
 - `css/styles.css` — diseño
 - `js/app.js` — lógica (fechas, puertitas, cupones, contador)
 - `js/effects.js` — nieve, destellos y confeti
-- `js/music.js` — "Noche de paz" en cajita musical (Web Audio, dominio público)
+- `js/music.js` + `musica.mp3` — "Noche de paz" en cajita musical (dominio público)
 - `sw.js` + `manifest.webmanifest` + `icons/` — app instalable y sin internet
 
 ## Publicar en Render (Static Site)

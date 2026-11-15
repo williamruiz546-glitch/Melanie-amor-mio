@@ -350,11 +350,17 @@ function redeem(btn){
 
 // ====== MÚSICA ======
 const musicBtn = $("musicBtn");
-musicBtn.addEventListener("click", () => {
-  const on = musicBtn.getAttribute("aria-pressed") !== "true";
+function setMusicUI(on){
   musicBtn.setAttribute("aria-pressed", on);
   musicBtn.setAttribute("aria-label", on ? "Apagar música navideña" : "Encender música navideña");
-  on ? Music.play() : Music.stop();
+}
+musicBtn.addEventListener("click", () => {
+  if (Music.on){ Music.stop(); setMusicUI(false); return; }
+  setMusicUI(true);
+  Music.play().then(
+    () => showToast("🎶 Noche de paz, para ti"),
+    () => { setMusicUI(false); showToast("No pude poner la música 😢 Sube el volumen y toca otra vez"); }
+  );
 });
 
 // ====== BIENVENIDA ======
