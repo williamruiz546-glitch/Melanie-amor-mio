@@ -1,6 +1,6 @@
 /* Service worker: guarda todo para que funcione sin internet.
    Si cambias o agregas fotos, sube el número de VERSION (v1 → v2) y agrega la foto a la lista. */
-const VERSION = "adviento-v2";
+const VERSION = "adviento-v3";
 const ASSETS = [
   "./",
   "index.html",
@@ -9,6 +9,8 @@ const ASSETS = [
   "js/app.js",
   "js/effects.js",
   "js/music.js",
+  "js/avisos.js",
+  "og.jpg",
   "manifest.webmanifest",
   "musica.mp3",
   "fonts/great-vibes.woff2",

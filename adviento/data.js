@@ -65,3 +65,24 @@ const FOTOS_FINAL = [
   "fotos/juntitos.webp",
   "fotos/cumple.webp"
 ];
+
+// ====== AVISOS PARA MÍ (ntfy) ======
+// Instala la app ntfy en tu celular y suscríbete a este tema para recibir los avisos.
+// Abre el link con #avisos al final para ver el botón "Enviar aviso de prueba".
+const NTFY_TOPIC = "adviento-melancho-guapa-0915";
+
+// ====== RECORDATORIO DIARIO PARA ELLA ======
+// Hora del aviso en su calendario (formato 24 h), zona horaria de Ecuador.
+const RECORDATORIO_HORA = "08:00";
+const RECORDATORIO_ZONA = "America/Guayaquil";
+const LINK_APP = "https://adviento-melancho.onrender.com";
+
+// ====== RESPONDERME POR WHATSAPP ======
+// Número con código de país, sin + ni espacios.
+const WHATSAPP = "593969731704";
+// Mensajes que ya salen escritos. {DIA}, {PREGUNTA} y {CUPON} se reemplazan solos.
+const WHATSAPP_MENSAJES = {
+  pregunta: "Hola mi flaquito 💬 Mi respuesta a la pregunta del día {DIA} («{PREGUNTA}»): ",
+  reto:     "Reto del día {DIA} cumplido, mi flaquito 😎 ",
+  cupon:    "Mi flaquito, quiero canjear mi cupón: {CUPON} 🎟️ ¿Cuándo me lo cumples? 😏"
+};

@@ -97,7 +97,29 @@ function render(){
     grid.appendChild(b);
   });
   renderProgress();
+  renderAlbum();
 }
+
+// ====== ÁLBUM (desde el 25 de diciembre) ======
+const isAfterXmas = () => TEST || new Date() >= new Date(YEAR,11,25);
+function renderAlbum(){
+  const box = $("album");
+  if (!isAfterXmas()){ box.hidden = true; return; }
+  box.hidden = false;
+  const days = Object.keys(DAYS).map(Number).filter(d => opened[d] && isUnlocked(d)).sort((a,b)=>a-b);
+  $("albumList").innerHTML = days.length ? days.map(d => `
+    <button class="album-card${DAYS[d].tipo==="final"?" is-final":""}" type="button" data-album="${d}">
+      <span class="ac-emoji" aria-hidden="true">${DAYS[d].emoji}</span>
+      <span class="ac-txt"><small>${d} de diciembre · ${LABEL[DAYS[d].tipo]}</small><b>${esc(DAYS[d].titulo)}</b></span>
+      ${redeemed[d] ? '<span class="ac-badge">Canjeado</span>' : ""}
+    </button>`).join("") : `<p class="album-empty">Todavía no abriste ninguna puertita. ¡Ábrelas abajo y aquí quedarán guardadas! 💛</p>`;
+}
+$("albumList").addEventListener("click", e => {
+  const b = e.target.closest("[data-album]");
+  if (!b) return;
+  lastFocus = b; vibrate(10);
+  show(+b.dataset.album, false);
+});
 
 function renderProgress(){
   const n = Object.keys(DAYS).filter(d => opened[d] && isUnlocked(+d)).length;
@@ -147,6 +169,7 @@ function openDoor(d,btn){
     setTimeout(()=>FX.burst(cx, cy, {n: 40, power: 6}), 180);
     setTimeout(()=>{
       opened[d] = true; saveOpened();
+      Avisos.send(`🎁 Melancho abrió la puertita del día ${d} (${horaAhora()})`);
       btn.classList.add("opened"); btn.classList.remove("opening");
       renderProgress();
       busy = false;
@@ -188,6 +211,7 @@ function letterHTML(d,c){
       ${photoHTML(d, big ? "" : "small")}
       <p class="${txtClass(c)}">${textOf(c)}</p>
       ${SIGN_HTML()}
+      ${c.tipo === "pregunta" || c.tipo === "reto" ? whatsappBtn(c.tipo, d, c) : ""}
       <button class="btn-close" type="button" data-close>Cerrar</button>
     </article>`;
 }
@@ -219,6 +243,7 @@ function ticketHTML(d,c){
       <div class="t-stub">
         <div class="t-meta"><span>Válido para Melanie<br>Firmado por su flaquito</span><b>Nº ${pad2(d)}</b></div>
         <button class="btn-redeem" type="button" data-redeem="${d}" ${done?"disabled":""}>${done ? "Canjeado ✓" : "Canjear cupón"}</button>
+        ${done ? whatsappBtn("cupon", d, c) : ""}
         <button class="btn-link" type="button" data-close>Guardar para después</button>
       </div>
     </article>`;
@@ -342,10 +367,14 @@ function redeem(btn){
   redeemed[d] = new Date().toISOString(); saveRedeemed();
   btn.classList.remove("confirm"); btn.disabled = true; btn.textContent = "Canjeado ✓";
   btn.closest(".ticket").insertAdjacentHTML("beforeend", stampHTML(redeemed[d], true));
+  btn.insertAdjacentHTML("afterend", whatsappBtn("cupon", d, DAYS[d]));
+  Avisos.send(`🎟️ Melancho canjeó: ${DAYS[d].cupon}`);
   const r = btn.getBoundingClientRect();
   FX.burst(r.left + r.width/2, r.top, {n: 30, power: 5, hearts: .6});
   vibrate([10,30,40]);
+  renderAlbum();
   showToast("¡Cupón canjeado! Avísale a tu flaquito 😘");
+  stage.querySelector(".btn-wa")?.focus({preventScroll:true});
 }
 
 // ====== MÚSICA ======
@@ -379,6 +408,41 @@ window.addEventListener("hashchange",()=>location.reload());
 // ====== APP INSTALABLE (sin internet) ======
 if ("serviceWorker" in navigator && location.protocol.startsWith("http")){
   addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(()=>{}));
+}
+
+// ====== RECORDATORIO DIARIO ======
+const remindBtn = $("remindBtn"), remindBox = $("remind");
+let remindDone = false;
+try { remindDone = localStorage.getItem("adviento-recordatorio") === "1"; } catch(e) {}
+function renderRemind(){
+  remindBox.hidden = new Date() >= new Date(YEAR,11,24,23,59);
+  remindBtn.textContent = remindDone ? "Recordatorio activado ✓" : "Recordarme cada día 🔔";
+  remindBtn.setAttribute("aria-label", remindDone ? "Recordatorio activado. Toca para volver a agregarlo" : "Recordarme cada día");
+  remindBtn.classList.toggle("done", remindDone);
+}
+remindBtn.addEventListener("click", () => {
+  Recordatorio.download();
+  remindDone = true; try { localStorage.setItem("adviento-recordatorio","1"); } catch(e) {}
+  renderRemind(); vibrate(15);
+  if (Recordatorio.isAndroid){
+    $("remindAlt").hidden = false;
+    $("remindAlt").innerHTML = `¿No se abrió tu calendario? <a href="${Recordatorio.googleURL()}" target="_blank" rel="noopener">Agrégalo en Google Calendar</a>`;
+  }
+  setTimeout(()=>showToast("¡Listo! Te avisaré cada mañana ❤️"), 600);
+});
+renderRemind();
+
+// ====== PANEL DE AVISOS (#avisos) ======
+if (location.hash === "#avisos"){
+  const panel = $("avisosPanel");
+  panel.hidden = false;
+  $("avisosInfo").textContent = `Tema: ${NTFY_TOPIC}` + (Avisos.pending ? ` · ${Avisos.pending} aviso(s) pendiente(s)` : "");
+  $("avisosTest").addEventListener("click", async e => {
+    const b = e.currentTarget; b.disabled = true; b.textContent = "Enviando…";
+    try { await Avisos.test(); showToast("✅ Aviso enviado. Revisa ntfy en tu celular"); }
+    catch(err){ showToast("❌ No se pudo enviar. ¿Hay internet?"); }
+    b.disabled = false; b.textContent = "Enviar aviso de prueba";
+  });
 }
 
 render();

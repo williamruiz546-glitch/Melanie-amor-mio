@@ -4,7 +4,23 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Adviento para Melancho</title>
-<meta name="description" content="Un calendario de adviento hecho con todo mi amor para Melancho.">
+<meta name="description" content="Un calendario de adviento hecho con todo mi amor">
+<!-- Vista previa al compartir el link (WhatsApp, etc.) -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://adviento-melancho.onrender.com/">
+<meta property="og:title" content="Para Melancho 🎄">
+<meta property="og:description" content="Un calendario de adviento hecho con todo mi amor">
+<meta property="og:image" content="https://adviento-melancho.onrender.com/og.jpg">
+<meta property="og:image:secure_url" content="https://adviento-melancho.onrender.com/og.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Para Melancho: nuestro calendario de adviento">
+<meta property="og:locale" content="es_EC">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Para Melancho 🎄">
+<meta name="twitter:description" content="Un calendario de adviento hecho con todo mi amor">
+<meta name="twitter:image" content="https://adviento-melancho.onrender.com/og.jpg">
 <meta name="theme-color" content="#140c1c">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -65,11 +81,28 @@
       <p class="cd-note" id="count"></p>
     </div>
 
+    <div class="remind" id="remind">
+      <button class="btn-remind" id="remindBtn" type="button">Recordarme cada día 🔔</button>
+      <p class="remind-alt" id="remindAlt" hidden></p>
+    </div>
+
+    <div class="avisos-panel" id="avisosPanel" hidden>
+      <p class="avisos-title">Avisos para ti (ntfy)</p>
+      <button class="btn-gold" id="avisosTest" type="button">Enviar aviso de prueba</button>
+      <p class="avisos-info" id="avisosInfo"></p>
+    </div>
+
     <div class="progress" aria-label="Progreso">
       <p class="progress-text" id="progressText">Has abierto 0 de 24 puertitas</p>
       <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="24" aria-valuenow="0" id="progressBar"><i id="progressFill"></i></div>
     </div>
   </header>
+
+  <section class="album" id="album" aria-labelledby="albumTitle" hidden>
+    <h2 id="albumTitle">Nuestro álbum de Adviento</h2>
+    <p class="album-sub">Todas las puertitas que abriste, para releerlas cuando quieras</p>
+    <div class="album-list" id="albumList"></div>
+  </section>
 
   <section class="grid" id="grid" aria-label="Puertitas del calendario"></section>
 
@@ -92,6 +125,7 @@
 <script src="data.js"></script>
 <script src="js/music.js"></script>
 <script src="js/effects.js"></script>
+<script src="js/avisos.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>

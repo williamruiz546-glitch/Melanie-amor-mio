@@ -8,6 +8,9 @@ Todo el contenido está en **`data.js`**:
 - `FOTOS`: qué foto sale en cada día (archivo dentro de `fotos/` + `pie` de foto).
 - `FOTOS_FINAL`: las fotos de la pantalla final del día 24.
 - `SIGN`: la firma de las cartas.
+- `NTFY_TOPIC`: tema de ntfy donde te llegan los avisos (cuando abre una puertita o canjea un cupón).
+- `RECORDATORIO_HORA`: hora del recordatorio diario en su calendario (ej. `"08:00"`).
+- `WHATSAPP` y `WHATSAPP_MENSAJES`: tu número y los mensajes que ya salen escritos.
 
 Edita solo lo que está entre comillas. Para comillas dentro de un texto usa « ».
 
@@ -20,12 +23,19 @@ Edita solo lo que está entre comillas. Para comillas dentro de un texto usa « 
 Reemplaza `musica.mp3` por otra canción (mismo nombre) y en `sw.js` sube `VERSION`.
 
 ## Modo prueba
-Agrega `#prueba` al final del link para ver todas las puertitas desbloqueadas.
+Agrega `#prueba` al final del link para ver todas las puertitas desbloqueadas (y el álbum). En este modo no se envía ningún aviso.
+
+## Avisos (ntfy)
+1. Instala la app **ntfy** y suscríbete al tema de `NTFY_TOPIC`.
+2. Abre el link con `#avisos` al final y toca "Enviar aviso de prueba".
+Si ella no tiene internet, el aviso queda guardado y se envía la próxima vez que abra la página.
 
 ## Estructura
 - `index.html` — estructura de la página
 - `css/styles.css` — diseño
-- `js/app.js` — lógica (fechas, puertitas, cupones, contador)
+- `js/app.js` — lógica (fechas, puertitas, cupones, contador, álbum)
+- `js/avisos.js` — avisos ntfy, recordatorio .ics y WhatsApp
+- `og.jpg` — imagen de vista previa al compartir el link
 - `js/effects.js` — nieve, destellos y confeti
 - `js/music.js` + `musica.mp3` — "Noche de paz" en cajita musical (dominio público)
 - `sw.js` + `manifest.webmanifest` + `icons/` — app instalable y sin internet

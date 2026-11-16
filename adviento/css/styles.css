@@ -137,6 +137,38 @@ main{position:relative;z-index:1;max-width:780px;margin:0 auto;padding:calc(6px 
   background:linear-gradient(90deg,var(--wine2),var(--gold) 70%,var(--gold2));box-shadow:0 0 12px rgba(230,194,110,.6);
   transition:width .9s cubic-bezier(.2,.8,.2,1)}
 
+/* ---------- Recordatorio ---------- */
+[hidden]{display:none!important}
+.remind{margin:14px auto 0;max-width:420px}
+.btn-remind{width:100%;min-height:52px;padding:0 20px;border-radius:999px;font-weight:800;font-size:1rem;color:var(--gold2);
+  background:linear-gradient(180deg,rgba(122,29,49,.55),rgba(75,15,31,.7));border:1.5px solid rgba(230,194,110,.55);
+  box-shadow:0 8px 22px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.08);transition:transform .15s}
+.btn-remind:active{transform:scale(.97)}
+.btn-remind.done{color:var(--cream);border-color:rgba(127,224,176,.5);background:linear-gradient(180deg,rgba(31,81,61,.6),rgba(17,48,31,.75))}
+.remind-alt{margin-top:10px;font-size:.9rem;color:var(--muted)}
+.remind-alt a{color:var(--gold2);font-weight:800;text-underline-offset:3px}
+
+/* ---------- Panel de avisos (#avisos) ---------- */
+.avisos-panel{margin:14px auto 0;max-width:420px;padding:16px;border-radius:18px;border:1.5px dashed rgba(230,194,110,.5);background:rgba(13,10,21,.55)}
+.avisos-title{font-size:.78rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:800;margin-bottom:10px}
+.avisos-info{margin-top:10px;font-size:.82rem;color:var(--muted);word-break:break-all}
+
+/* ---------- Álbum (desde el 25) ---------- */
+.album{margin:0 auto 30px;max-width:560px;text-align:center}
+.album h2{font-family:var(--script);font-weight:400;font-size:clamp(2.3rem,10vw,3rem);line-height:1.05;color:var(--gold2)}
+.album-sub{color:var(--muted);margin:4px 0 16px;font-size:.95rem}
+.album-list{display:grid;gap:10px;text-align:left}
+.album-card{display:flex;align-items:center;text-align:left;gap:14px;width:100%;min-height:64px;padding:12px 16px;border-radius:16px;color:var(--ink);
+  background:linear-gradient(180deg,#fffaf0,#f4e6cc);box-shadow:0 8px 18px rgba(0,0,0,.3),inset 0 0 0 1px rgba(167,125,44,.35);transition:transform .15s}
+.album-card:active{transform:scale(.98)}
+.album-card.is-final{background:linear-gradient(180deg,#f8e2a6,#e6c26e)}
+.ac-emoji{font-size:1.8rem;line-height:1;flex:0 0 auto}
+.ac-txt{flex:1;min-width:0;display:flex;flex-direction:column}
+.ac-txt small{font-size:.7rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--gold-d)}
+.ac-txt b{font-family:var(--script);font-weight:400;font-size:1.55rem;line-height:1.15;color:var(--wine)}
+.ac-badge{flex:0 0 auto;font-size:.68rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--wine2);border:1.5px solid var(--wine2);border-radius:8px;padding:3px 7px;transform:rotate(-6deg)}
+.album-empty{text-align:center;color:var(--muted);padding:14px}
+
 /* ---------- Puertitas (cajitas de regalo) ---------- */
 .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px 10px;padding-top:6px}
 @media (min-width:560px){.grid{grid-template-columns:repeat(6,1fr);gap:16px 14px}}
@@ -275,6 +307,15 @@ main{position:relative;z-index:1;max-width:780px;margin:0 auto;padding:calc(6px 
 .btn-close{margin-top:16px;min-height:50px;padding:0 30px;border-radius:999px;font-weight:800;font-size:1rem;color:var(--cream);
   background:linear-gradient(180deg,var(--wine2),var(--wine));box-shadow:0 8px 18px rgba(75,15,31,.35)}
 .btn-close:active{transform:scale(.97)}
+
+/* Botón de WhatsApp */
+.btn-wa{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:52px;margin-top:14px;padding:0 18px;border-radius:14px;
+  font-weight:800;font-size:1rem;color:#fff;text-decoration:none;background:linear-gradient(180deg,#2bb673,#1d8f57);
+  box-shadow:0 8px 18px rgba(29,143,87,.35),inset 0 1px 0 rgba(255,255,255,.25);transition:transform .15s}
+.btn-wa:active{transform:scale(.97)}
+.btn-wa svg{width:22px;height:22px;fill:#fff;flex:0 0 auto}
+.letter .btn-wa{margin-top:18px}
+.letter .btn-wa + .btn-close{margin-top:12px}
 
 /* Polaroid */
 .polaroid{position:relative;width:min(78%,280px);margin:6px auto 18px;padding:10px 10px 12px;background:#fff;border-radius:3px;
